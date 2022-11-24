@@ -216,7 +216,7 @@ void employee::display_sp(int n) //    	function to read specific record from fi
     }
     inFile.close();
     if (flag == false)
-        cout << "\n\nAccount number does not exist";
+        cout << "\n\nNo Account with this Account number exists , \n please enter the correct details and try again \n";
 }
 
 void employee::modify_account(int n) //    	function to modify record of file
