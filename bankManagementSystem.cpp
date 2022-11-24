@@ -72,17 +72,17 @@ public:
     void deposit_withdraw(int, int); // function to desposit/withdraw amount for given account
 };
 
-//Defining Functions for Customer class
+// Defining Functions for Customer class
 
 void customer::create_account() // function to get data from user
 {
-    cout << "Please verify your Employee id to continue : ";          // verifing the employee by ID
+    cout << "Please verify your Employee id to continue : "; // verifing the employee by ID
     int id;
     cin >> id;
     bool flag = false;
     for (int i = 0; i < 5; i++)
     {
-        if (id == idOfEmp[i])                       //if employee id entered is correct then , only you can access ahead
+        if (id == idOfEmp[i]) // if employee id entered is correct then , only you can access ahead
         {
             flag = true;
             break;
@@ -92,7 +92,7 @@ void customer::create_account() // function to get data from user
         cout << "\nPlease enter the correct ID to continue \n";
     else
     {
-        cout << "\nEnter The account No. : ";                       //steps for creating account
+        cout << "\nEnter The account No. : "; // steps for creating account
         cin >> accNumber;
         cout << "\n\nEnter The Name of The account Holder : ";
         cin.ignore();
@@ -111,7 +111,12 @@ void customer::show_account() const // function to show data on screen
     cout << "\nAccount No. : " << accNumber;
     cout << "\nAccount Holder Name : ";
     cout << name;
-    cout << "\nType of Account : " << type << "  ";
+    if (type == 'C')
+        cout << "\nType of Account : Credit "
+             << "  ";
+    else if (type == 'S')
+        cout << "\nType of Account : Savings"
+             << "  ";
     cout << "\nBalance amount : " << balance << endl;
 }
 
@@ -121,7 +126,7 @@ void customer::modify() // function to add new data
     int id;
     cin >> id;
     bool flag = false;
-    for (int i = 0; i < 5; i++)                     
+    for (int i = 0; i < 5; i++)
     {
         if (id == idOfEmp[i])
         {
@@ -133,7 +138,7 @@ void customer::modify() // function to add new data
         cout << "\nPlease enter the correct ID to continue \n";
     else
     {
-        cout << "\nAccount No. : " << accNumber;                    // steps for modifying an account
+        cout << "\nAccount No. : " << accNumber; // steps for modifying an account
         cout << "\nModify Account Holder Name : ";
         cin.ignore();
         cin.getline(name, 50);
@@ -148,7 +153,7 @@ void customer::modify() // function to add new data
 void customer::deposit(int x) // function to accept amount and add to balance amount
 {
     balance += x;
-    cout<<"\nUpdated Account Balance is : "<<balance <<endl;
+    cout << "\nUpdated Account Balance is : " << balance << endl;
 }
 
 void customer::withdraw(int x) // function to accept amount and subtract from balance amount
@@ -176,28 +181,23 @@ char customer::retAccType() const // function to return type of account
     return type;
 }
 
-
-
 //******************  Defining Functions for employee class   *********************/
-
-
 
 void employee::write_account() // function to write in file
 {
-    customer ac;                        //creating an customer class object
-    ofstream outFile;                                           //object of ofstream to write data into an file named "account.dat"
+    customer ac;      // creating an customer class object
+    ofstream outFile; // object of ofstream to write data into an file named "account.dat"
     outFile.open("account.dat", ios::binary | ios::app);
-    ac.create_account();                                     //calling the create account function for creating an account
-    outFile.write(reinterpret_cast<char *>(&ac), sizeof(customer));         //wrinting data
+    ac.create_account();                                            // calling the create account function for creating an account
+    outFile.write(reinterpret_cast<char *>(&ac), sizeof(customer)); // wrinting data
     outFile.close();
 }
-
 
 void employee::display_sp(int n) //    	function to read specific record from file
 {
     customer ac;
     bool flag = false;
-    ifstream inFile;                                           //object of ifstream to read data from a file named "account.dat"
+    ifstream inFile; // object of ifstream to read data from a file named "account.dat"
     inFile.open("account.dat", ios::binary);
     if (!inFile)
     {
@@ -210,13 +210,13 @@ void employee::display_sp(int n) //    	function to read specific record from fi
     {
         if (ac.retAccNumber() == n)
         {
-            ac.show_account();                      //calling the show_account function for showing details of an account
+            ac.show_account(); // calling the show_account function for showing details of an account
             flag = true;
         }
     }
     inFile.close();
     if (flag == false)
-        cout << "\n\nNo Account with this Account number exists , \n please enter the correct details and try again \n";
+        cout << "\n\nNo Account with this Account number exists , \n please enter the correct details and try again";
 }
 
 void employee::modify_account(int n) //    	function to modify record of file
@@ -232,10 +232,10 @@ void employee::modify_account(int n) //    	function to modify record of file
     }
     while (!File.eof() && found == false)
     {
-        File.read(reinterpret_cast<char *>(&ac), sizeof(customer));             // calling all functions needed to modify an account
+        File.read(reinterpret_cast<char *>(&ac), sizeof(customer)); // calling all functions needed to modify an account
         if (ac.retAccNumber() == n)
         {
-            ac.show_account();              
+            ac.show_account();
             cout << "\n\nEnter The New Details of account" << endl;
             ac.modify();
             int pos = (-1) * static_cast<int>(sizeof(customer));
@@ -277,7 +277,7 @@ void employee::delete_account(int n) //    	function to delete record of file
             cout << "File could not be open !! Press any Key...";
             return;
         }
-        outFile.open("Temp.dat", ios::binary);                              //steps for deleting the data of an particular account
+        outFile.open("Temp.dat", ios::binary); // steps for deleting the data of an particular account
         inFile.seekg(0, ios::beg);
         while (inFile.read(reinterpret_cast<char *>(&ac), sizeof(customer)))
         {
@@ -289,7 +289,7 @@ void employee::delete_account(int n) //    	function to delete record of file
         inFile.close();
         outFile.close();
         remove("account.dat");
-        rename("Temp.dat", "account.dat");                  // removing data from the file itself
+        rename("Temp.dat", "account.dat"); // removing data from the file itself
         cout << "\n\n\tRecord Deleted ..";
     }
 }
@@ -310,7 +310,7 @@ void employee::display_all() //    	function to display all accounts deposit lis
     cout << "========================================================\n";
     while (inFile.read(reinterpret_cast<char *>(&ac), sizeof(customer)))
     {
-        ac.report();                         //calling the report function for showing details of all accounts
+        ac.report(); // calling the report function for showing details of all accounts
         cout << endl;
     }
     inFile.close();
@@ -339,7 +339,7 @@ void employee::deposit_withdraw(int n, int option) //    	function to deposit an
                 cout << "\n\n\tTO DEPOSITE AMOUNT ";
                 cout << "\n\nEnter The amount to be deposited : ";
                 cin >> amt;
-                ac.deposit(amt);                    //calling deposit func. for depositing an given amount
+                ac.deposit(amt); // calling deposit func. for depositing an given amount
                 cin.get();
             }
             if (option == 2)
@@ -351,7 +351,7 @@ void employee::deposit_withdraw(int n, int option) //    	function to deposit an
                 if ((bal < 500 && ac.retAccType() == 'S') || (bal < 1000 && ac.retAccType() == 'C'))
                     cout << "Insufficience balance\n";
                 else
-                    ac.withdraw(amt);           //calling withdraw func. for withdrawing an given amount
+                    ac.withdraw(amt); // calling withdraw func. for withdrawing an given amount
             }
             int pos = (-1) * static_cast<int>(sizeof(ac));
             File.seekp(pos, ios::cur);
@@ -367,13 +367,11 @@ void employee::deposit_withdraw(int n, int option) //    	function to deposit an
 
 void intro();
 
-
 //******************        MAIN FUNCTION           ***********************/
- 
- 
+
 int main()
 {
-    intro();                    //calling intro funciton for displaying some info
+    intro(); // calling intro funciton for displaying some info
 
     employee emp(1);
 
@@ -382,7 +380,7 @@ int main()
 
     do
     {
-        system("cls");                      //giving choice and calling the particular funciton based on the choice entered
+        system("cls"); // giving choice and calling the particular funciton based on the choice entered
         cout << "\n\n\n\tMAIN MENU";
         cout << "\n\n\t01. NEW ACCOUNT";
         cout << "\n\n\t02. DEPOSIT AMOUNT";
@@ -438,7 +436,7 @@ int main()
             break;
 
         case '8':
-            cout << "\n\n\tThanks for using bank managemnt system";
+            cout << "\n\n\tThanks for using our Bank Management System \n \t  We Hope you got what you were looking for :) \n";
             break;
         default:
             cout << "\a";
@@ -462,6 +460,4 @@ void intro()
     cout << "\n\n\n\n\tWelcome to our online Banking Interface \n\t      Hope You Will Enjoy\n\n\n Please press enter to continue : ";
 
     cin.get();
-
-
 }
