@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cctype>
 #include <iomanip>
+#include <bits/stdc++.h>
 using namespace std;
 
 class Bank // Base class named bank
@@ -446,10 +447,6 @@ int main()
     } while (ch != '8');
     return 0;
 }
-
-//***************************************************************
-//    	INTRODUCTION FUNCTION
-//****************************************************************
 
 void intro()
 {
