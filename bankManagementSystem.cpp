@@ -437,7 +437,7 @@ int main()
             break;
 
         case '8':
-            cout << "\n\n\tThanks for using our Bank Management System \n \t  We Hope you got what you were looking for :) \n";
+            cout << "\n\n\tThanks for using our Bank Management System \n \t  We Hope that our system did'nt disappointed you :) \n";
             break;
         default:
             cout << "\a";
