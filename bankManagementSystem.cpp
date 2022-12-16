@@ -265,10 +265,21 @@ void employee::delete_account(int n) //    	function to delete record of file
             break;
         }
     }
-    if (flag == false)
+    if (flag == false){
         cout << "\nPlease enter the correct ID to continue \n";
-    else
+        int idee ; cin>>idee;
+        for (int i = 0; i < 5; i++)
     {
+        if (idee == idOfEmp[i])
+        {
+            flag = true;
+            break;
+        }
+    }
+    }
+    else
+        cout<<"You can't continue ahead \n";
+    if(flag == true){
         customer ac;
         ifstream inFile;
         ofstream outFile;
